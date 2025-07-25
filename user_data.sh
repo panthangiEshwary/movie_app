@@ -20,6 +20,12 @@ nohup python3 app.py > app.log 2>&1 &
 
 
 
+
+
+
+
+
+
 # ECR Login and run container
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 186543874090.dkr.ecr.us-east-1.amazonaws.com
 docker pull 186543874090.dkr.ecr.us-east-1.amazonaws.com/movie-backend:latest
