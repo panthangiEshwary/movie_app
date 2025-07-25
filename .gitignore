@@ -1,2 +1,9 @@
+# .gitignore
 .terraform/
-.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+__pycache__/
+*.pyc
+.env
+
