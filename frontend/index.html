@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movie Ticket Booking - Telugu Movies</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .poster-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .poster-gallery img {
+      width: 100px;
+      height: 150px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, select, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .toast {
+      display: none;
+      text-align: center;
+      background: #4caf50;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+    .view-tickets {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎬 Telugu Movie Ticket Booking 🎟️</h1>
+
+    <!-- Telugu Movie Posters -->
+    <div class="poster-gallery">
+      <img src="https://upload.wikimedia.org/wikipedia/en/d/d7/RRR_Poster.jpg" alt="RRR Poster" />
+      <img src="https://i.pinimg.com/736x/a5/ff/f2/a5fff291e5bbfa06c7e7690a3530df65.jpg" alt="Pushpa 2 Poster" />
+      <img src="https://upload.wikimedia.org/wikipedia/en/a/a6/Salaar_Part_1_%E2%80%93_Ceasefire.jpg" alt="Salaar Poster" />
+      <img src="https://upload.wikimedia.org/wikipedia/en/4/4c/Kalki_2898_AD.jpg" alt="Kalki Poster" />
+      <img src="https://m.media-amazon.com/images/M/MV5BZmJmNzg0NjYtM2VhZi00MjlhLWExMzUtOWMwNjQ4MmQ5N2UyXkEyXkFqcGc@._V1_.jpg" alt="Devara Poster" />
+      <img src="https://m.media-amazon.com/images/M/MV5BMzRmOTQxOTUtOTM2OS00OTBiLTg3ZGItM2JmZDkxOGQ1MzIxXkEyXkFqcGc@._V1_.jpg" alt="Hi Nanna Poster" />
+    </div>
+
+    <!-- Booking Form -->
+    <form id="bookingForm">
+      <label for="movie">Select Movie:</label>
+      <select name="movie" id="movie" required>
+        <option value="RRR">RRR</option>
+        <option value="Pushpa 2">Pushpa 2</option>
+        <option value="Salaar">Salaar</option>
+        <option value="Kalki">Kalki</option>
+        <option value="Devara">Devara</option>
+        <option value="Hi Nanna">Hi Nanna</option>
+      </select>
+
+      <label for="date">Date:</label>
+      <input type="date" name="date" id="date" required />
+
+      <label for="time">Time:</label>
+      <input type="time" name="time" id="time" required />
+
+      <label for="seats">Number of Seats:</label>
+      <input type="number" name="seats" id="seats" min="1" required />
+
+      <button type="submit">Book Ticket</button>
+    </form>
+
+    <div class="toast" id="toast">🎉 Booking successful!</div>
+
+    <a class="view-tickets" href="tickets.html">View My Tickets →</a>
+  </div>
+
+  <script>
+    const form = document.getElementById("bookingForm");
+    const toast = document.getElementById("toast");
+
+    const BACKEND_URL = "##BACKEND_URL##";
+fetch(`${BACKEND_URL}/tickets`)
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const bookingData = {
+        movie: form.movie.value,
+        date: form.date.value,
+        time: form.time.value,
+        seats: form.seats.value,
+      };
+
+      try {
+        const res = await fetch("__BACKEND_URL__/book", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(bookingData),
+        });
+
+        if (res.ok) {
+          form.reset();
+          toast.style.display = "block";
+          setTimeout(() => {
+            toast.style.display = "none";
+          }, 3000);
+        } else {
+          alert("Failed to book ticket.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Server error.");
+      }
+    });
+  </script>
+</body>
+</html>
